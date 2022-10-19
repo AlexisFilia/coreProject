@@ -1,0 +1,19 @@
+- name: project1
+  definition:
+    url: https://mieltemspmtdyniitwlc.nhost.run/v1/graphql
+    timeout_seconds: 60
+    customization:
+      root_fields_namespace: project1
+    headers:
+    - name: x-hasura-admin-secret
+      value: 0af0accb632b22d41834c793f66395bb
+  comment: ""
+- name: project2
+  definition:
+    url: https://hanqdpvpjoturlipnemp.nhost.run/v1/graphql
+    timeout_seconds: 60
+    customization:
+      root_fields_namespace: project2
+    headers:
+    - name: x-hasura-admin-secret
+      value: cfbb535c8b87819e6e2d2c3759e76b2c
