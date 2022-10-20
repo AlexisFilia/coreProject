@@ -37,8 +37,7 @@ export default async (req: Request, res: Response) => {
 
   const responseJson = await response.json();
 
-  console.log(responseJson.status);
-  console.log(responseJson.body);
+  console.log(responseJson);
 
   console.log("---------FIN du SCRIPT-----------");
 };
