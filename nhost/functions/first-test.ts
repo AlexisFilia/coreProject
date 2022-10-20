@@ -4,17 +4,15 @@ require("isomorphic-fetch");
 function createGqlRequest(body): string {
   const { subject, text, html } = body;
   const query = `
-  mutation {
-    InsertEmail($subject: String, $text: String) {
-      insert_email(
-          objects: {
-              body: $subject,
-              fullRequest: $text
-          }
-      ) {
-        returning {
-            id
+  mutation InsertEmail($subject: String, $text: String) {
+    insert_email(
+        objects: {
+            body: $subject,
+            fullRequest: $text
         }
+    ) {
+      returning {
+          id
       }
     }
   }`;
