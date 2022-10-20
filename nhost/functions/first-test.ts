@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 const https = require("node:https");
 
 const options = {
-  hostname: "https://mieltemspmtdyniitwlc.nhost.run/v1/graphql",
+  hostname: "mieltemspmtdyniitwlc.nhost.run/v1/graphql",
   port: 443,
   path: "/",
   method: "POST",
@@ -31,7 +31,7 @@ function createGqlRequest(body): string {
 }
 
 export default (req: Request, res: Response) => {
-  console.log("J'ai reçu un email from: " + req.body.from.toString());
+  console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
 
   var postData = createGqlRequest(req.body);
