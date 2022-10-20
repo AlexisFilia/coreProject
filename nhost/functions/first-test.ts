@@ -49,5 +49,5 @@ export default async (req: Request, res: Response) => {
   console.log(responseJson);
 
   console.log("---------FIN du SCRIPT-----------");
-  return res.status(200);
+  return new Promise(responseJson);
 };
