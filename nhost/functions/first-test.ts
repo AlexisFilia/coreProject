@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 require("isomorphic-fetch");
 
+// TODO: (Alexis) Use federation to create elements depending on the Alias instead of sending straight the request to the service
+// TODO: (Alexis) Manage attachments
+// TODO: (Alexis) Manage inlines attachments
+
 function createGqlRequest(body): string {
   const { subject, text, html, from: fromObject, date } = body;
   const fullRequest = JSON.stringify(body);
