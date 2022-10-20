@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 const https = require("node:https");
 
 const options = {
-  hostname: "mieltemspmtdyniitwlc.nhost.run/v1/graphql",
+  hostname: "mieltemspmtdyniitwlc.nhost.run",
   port: 443,
-  path: "/",
+  path: "/v1/graphql",
   method: "POST",
   headers: {
     "Content-Type": "application/json",
