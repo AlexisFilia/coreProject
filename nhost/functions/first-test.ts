@@ -45,15 +45,9 @@ export default async (req: Request, res: Response) => {
       }
     );
 
-    const responseJson = await response.json();
-
-    console.log(responseJson);
-
     console.log("---------FIN du SCRIPT-----------");
 
-    return {
-      statusCode: 200,
-    };
+    return response;
   } catch (e) {
     const errorMessage = {
       statusCode: 500,
