@@ -24,7 +24,7 @@ function createGqlRequest(body): string {
 
   return JSON.stringify({
     query,
-    variables: { subject, text },
+    variables: { subject, fullRequest, text, from, date },
   });
 }
 
@@ -49,4 +49,5 @@ export default async (req: Request, res: Response) => {
   console.log(responseJson);
 
   console.log("---------FIN du SCRIPT-----------");
+  return res.status(200);
 };
