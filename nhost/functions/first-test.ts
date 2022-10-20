@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-const https = require("node:https");
+// const https = require("node:https");
+require("isomorphic-fetch");
 
 const options = {
   hostname: "mieltemspmtdyniitwlc.nhost.run",
@@ -18,8 +19,8 @@ function createGqlRequest(body): string {
     mutation {
       insert_email(
           objects: {
-              body: ${body.text.toString()},
-              fullRequest: ${JSON.stringify(body)}
+              body: "premier test",
+              fullRequest: "coucou"
           }
       ) {
           returning {
@@ -29,28 +30,56 @@ function createGqlRequest(body): string {
   }`,
   });
 }
+// function createGqlRequest(body): string {
+//   return JSON.stringify({
+//     query: `
+//     mutation {
+//       insert_email(
+//           objects: {
+//               body: ${body.text.toString()},
+//               fullRequest: ${JSON.stringify(body)}
+//           }
+//       ) {
+//           returning {
+//               id
+//           }
+//       }
+//   }`,
+//   });
+// }
 
 export default (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
 
-  var postData = createGqlRequest(req.body);
+  // var postData = createGqlRequest(req.body);
 
-  var request = https.request(options, (res) => {
-    console.log("statusCode:", res.statusCode);
-    console.log("headers:", res.headers);
+  // var request = https.request(options, (res) => {
+  //   console.log("statusCode:", res.statusCode);
+  //   console.log("headers:", res.headers);
 
-    res.on("data", (d) => {
-      process.stdout.write(d);
-    });
-  });
+  //   res.on("data", (d) => {
+  //     process.stdout.write(d);
+  //   });
+  // });
 
-  request.on("error", (e) => {
-    console.error(e);
-  });
+  // request.on("error", (e) => {
+  //   console.error(e);
+  // });
 
-  request.write(postData);
-  request.end();
+  // request.write(postData);
+  // request.end();
+
+  fetch("https://mieltemspmtdyniitwlc.nhost.run/v1/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
+    },
+    body: createGqlRequest(req.body),
+  })
+    .then((res) => res.json())
+    .then((res) => console.log(res.data));
 
   console.log("---------FIN du SCRIPT-----------");
 };
