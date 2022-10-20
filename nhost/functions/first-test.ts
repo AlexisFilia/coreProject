@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-// const https = require("node:https");
 require("isomorphic-fetch");
 
 const options = {
@@ -13,31 +12,14 @@ const options = {
   },
 };
 
-function createGqlRequest(body): string {
-  return JSON.stringify({
-    query: `
-    mutation {
-      insert_email(
-          objects: {
-              body: "premier test",
-              fullRequest: "coucou"
-          }
-      ) {
-          returning {
-              id
-          }
-      }
-  }`,
-  });
-}
 // function createGqlRequest(body): string {
 //   return JSON.stringify({
 //     query: `
 //     mutation {
 //       insert_email(
 //           objects: {
-//               body: ${body.text.toString()},
-//               fullRequest: ${JSON.stringify(body)}
+//               body: "premier test",
+//               fullRequest: "coucou"
 //           }
 //       ) {
 //           returning {
@@ -47,28 +29,27 @@ function createGqlRequest(body): string {
 //   }`,
 //   });
 // }
+function createGqlRequest(body): string {
+  return JSON.stringify({
+    query: `
+    mutation {
+      insert_email(
+          objects: {
+              body: ${body.text},
+              fullRequest: ${JSON.stringify(body)}
+          }
+      ) {
+          returning {
+              id
+          }
+      }
+  }`,
+  });
+}
 
 export default (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
-
-  // var postData = createGqlRequest(req.body);
-
-  // var request = https.request(options, (res) => {
-  //   console.log("statusCode:", res.statusCode);
-  //   console.log("headers:", res.headers);
-
-  //   res.on("data", (d) => {
-  //     process.stdout.write(d);
-  //   });
-  // });
-
-  // request.on("error", (e) => {
-  //   console.error(e);
-  // });
-
-  // request.write(postData);
-  // request.end();
 
   fetch("https://mieltemspmtdyniitwlc.nhost.run/v1/graphql", {
     method: "POST",
