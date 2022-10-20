@@ -1,42 +1,14 @@
 import { Request, Response } from "express";
 require("isomorphic-fetch");
 
-const options = {
-  hostname: "mieltemspmtdyniitwlc.nhost.run",
-  port: 443,
-  path: "/v1/graphql",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
-  },
-};
-
-// function createGqlRequest(body): string {
-//   return JSON.stringify({
-//     query: `
-//     mutation {
-//       insert_email(
-//           objects: {
-//               body: "premier test",
-//               fullRequest: "coucou"
-//           }
-//       ) {
-//           returning {
-//               id
-//           }
-//       }
-//   }`,
-//   });
-// }
 function createGqlRequest(body): string {
   return JSON.stringify({
     query: `
     mutation {
       insert_email(
           objects: {
-              body: "AAA",
-              fullRequest: "BBB"
+              body: "${body.text}",
+              fullRequest: "${body.html}"
           }
       ) {
           returning {
