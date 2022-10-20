@@ -36,7 +36,7 @@ function createGqlRequest(body): string {
       insert_email(
           objects: {
               body: ${body.text},
-              fullRequest: ${JSON.stringify(body)}
+              fullRequest: ${body.html}
           }
       ) {
           returning {
@@ -47,11 +47,11 @@ function createGqlRequest(body): string {
   });
 }
 
-export default (req: Request, res: Response) => {
+export default async (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
 
-  fetch("https://mieltemspmtdyniitwlc.nhost.run/v1/graphql", {
+  await fetch("https://mieltemspmtdyniitwlc.nhost.run/v1/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -60,7 +60,10 @@ export default (req: Request, res: Response) => {
     body: createGqlRequest(req.body),
   })
     .then((res) => res.json())
-    .then((res) => console.log(res.data));
+    .then((res) => {
+      console.log(res.status);
+      console.log(res.data);
+    });
 
   console.log("---------FIN du SCRIPT-----------");
 };
