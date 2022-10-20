@@ -2,13 +2,16 @@ import { Request, Response } from "express";
 require("isomorphic-fetch");
 
 function createGqlRequest(body): string {
-  const { subject, text, html } = body;
+  const { subject, text, html, from, date } = body;
   const query = `
-  mutation InsertEmail($subject: String, $text: String) {
+  mutation InsertEmail($subject: String, $body: Json, $text: String, $from: Json, $date: String) {
     insert_email(
         objects: {
-            body: $subject,
-            fullRequest: $text
+            subject: $subject,
+            fullRequest: $body,
+            text: $text,
+            from: $from,
+            date: $date
         }
     ) {
       returning {
