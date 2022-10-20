@@ -35,8 +35,8 @@ function createGqlRequest(body): string {
     mutation {
       insert_email(
           objects: {
-              body: ${body.text},
-              fullRequest: ${body.html}
+              body: "AAA",
+              fullRequest: "BBB"
           }
       ) {
           returning {
@@ -51,19 +51,22 @@ export default async (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
 
-  await fetch("https://mieltemspmtdyniitwlc.nhost.run/v1/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
-    },
-    body: createGqlRequest(req.body),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res.status);
-      console.log(res.data);
-    });
+  const response = await fetch(
+    "https://mieltemspmtdyniitwlc.nhost.run/v1/graphql",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
+      },
+      body: createGqlRequest(req.body),
+    }
+  );
+
+  const responseJson = await response.json();
+
+  console.log(responseJson.status);
+  console.log(responseJson.body);
 
   console.log("---------FIN du SCRIPT-----------");
 };
