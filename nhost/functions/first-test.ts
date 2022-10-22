@@ -51,7 +51,9 @@ export default async (req: Request, res: Response) => {
 
     console.log("---------FIN du SCRIPT-----------");
 
-    return response;
+    return {
+      statusCode: 200,
+    };
   } catch (e) {
     const errorMessage = {
       statusCode: 500,
