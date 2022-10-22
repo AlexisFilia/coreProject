@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@nhost/core@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@nhost/core/-/core-0.9.1.tgz#f634d4c1726d330982cdb70a758b87f0bb21faad"
+  integrity sha512-v+Q2zQRGYQCdvIphZw5ZKwZlB2B5qFqiT2zSEeAQDgischckiOZnD76qGxl/00T43kU6FinS27P+qP9rCCBI3A==
+  dependencies:
+    "@simplewebauthn/browser" "^6.0.0"
+    axios "^0.27.2"
+    js-cookie "^3.0.1"
+    xstate "^4.33.5"
+
 "@nhost/hasura-auth-js@1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-1.6.1.tgz#31f7a4ea9269da1f1da2fc604599a3ae9dab292f"
@@ -30,6 +40,11 @@
     axios "^0.27.2"
     jwt-decode "^3.1.2"
     query-string "^7.0.1"
+
+"@simplewebauthn/browser@^6.0.0":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-6.2.1.tgz#e17acdb5a91111001cfbd9071fd4b187db7fe374"
+  integrity sha512-SxP+miOdM55rj43OdoHcIP3GCeOjIa2g49CDLnpx/HBRRTLBfBr9Bt8JVxKqxOPuR2ctnIuCotoWX5j6k4B+dA==
 
 "@types/body-parser@*":
   version "1.19.2"
@@ -161,6 +176,11 @@ isomorphic-fetch@^3.0.0:
   dependencies:
     node-fetch "^2.6.1"
     whatwg-fetch "^3.4.1"
+
+js-cookie@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
+  integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
 
 jwt-decode@^3.1.2:
   version "3.1.2"

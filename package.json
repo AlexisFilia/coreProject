@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@nhost/core": "^0.9.1",
     "@nhost/nhost-js": "^1.5.2",
     "@types/express": "^4.17.14",
     "File": "^0.10.2",
