@@ -1,5 +1,17 @@
 import { Request, Response } from "express";
+import { NhostClient } from "@nhost/nhost-js";
 require("isomorphic-fetch");
+
+const nhost = new NhostClient({
+  subdomain: "salwxqscgfcsfgnlpaju",
+  region: "eu-central-1",
+});
+
+type AttachementType = {
+  type: string;
+  name: string;
+  content: any;
+};
 
 // TODO: (Alexis) Manage attachments
 // TODO: (Alexis) Manage inlines attachments
@@ -50,11 +62,25 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
-  const { name, email } = req.body.from;
+  const { name, email, attachments, inlines } = req.body.from;
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
   console.log("Le subject est: " + req.body.subject);
 
   const response = await fetch(endPointUrl, generateRequest(req));
+
+  // Manage the email attachments
+  if (attachments[0]) {
+    for (let index = 0; index < attachments.length; index++) {
+      const attachment = attachments[index] as AttachementType;
+      console.log(attachment);
+      // await nhost.storage.upload(attachment);
+    }
+  }
+
+  // Manage email inline attachments
+  if (inlines[0]) {
+    // await nhost.storage.upload({ file });
+  }
 
   if (response.status === 200) {
     res.status(200).send();
