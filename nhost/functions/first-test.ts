@@ -61,14 +61,15 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
-  const { name, email, attachments, inlines } = req.body.from;
+  const { attachments, inlines } = req.body;
+  const { name, email } = req.body.from;
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
   console.log("Le subject est: " + req.body.subject);
 
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
-  if (attachments[0]) {
+  if (attachments) {
     for (let index = 0; index < attachments.length; index++) {
       const attachment = attachments[index] as AttachementType;
       // const file = new File(bits, name)
@@ -79,7 +80,7 @@ export default async (req: Request, res: Response) => {
   }
 
   // Manage email inline attachments
-  if (inlines[0]) {
+  if (inlines) {
     // await nhost.storage.upload({ file });
   }
 
