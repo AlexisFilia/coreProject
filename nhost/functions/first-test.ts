@@ -29,15 +29,13 @@ function createGqlRequestBody(body): string {
   const query = `
   mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
     ${workspace} {
-      insert_email(
-          objects: {
-              subject: $subject,
-              fullRequest: $fullRequest,
-              body: $text,
-              from: $from,
-              date: $date
-          }
-      ) {
+      insert_email(objects: {
+          subject: $subject,
+          fullRequest: $fullRequest,
+          body: $text,
+          from: $from,
+          date: $date
+        }) {
         returning {
             id
         }
@@ -60,7 +58,7 @@ export default async (req: Request, res: Response) => {
 
   const response = await fetch(endPointUrl, generateRequest(req));
 
-  console.log(JSON.stringify(response));
+  console.log(response);
 
   if (response.status === 200) {
     res.status(200).send();
