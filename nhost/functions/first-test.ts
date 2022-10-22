@@ -56,6 +56,8 @@ export default async (req: Request, res: Response) => {
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
   console.log("Le subject est: " + req.body.subject);
 
+  console.log("generateRequest", generateRequest(req));
+
   const response = await fetch(endPointUrl, generateRequest(req));
 
   if (response.status === 200) {
