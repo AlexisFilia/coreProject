@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { NhostClient } from "@nhost/nhost-js";
 require("isomorphic-fetch");
 
-const nhost = new NhostClient({
-  subdomain: "salwxqscgfcsfgnlpaju",
-  region: "eu-central-1",
-});
+// const nhost = new NhostClient({
+//   subdomain: "salwxqscgfcsfgnlpaju",
+//   region: "eu-central-1",
+// });
 
 type AttachementType = {
   type: string;

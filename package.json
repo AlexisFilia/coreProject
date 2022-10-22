@@ -1,8 +1,6 @@
 {
   "dependencies": {
-    "@nhost/nhost-js": "^1.5.2",
     "@types/express": "^4.17.14",
-    "graphql": "^16.6.0",
     "isomorphic-fetch": "^3.0.0"
   }
 }
