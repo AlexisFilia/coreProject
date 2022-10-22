@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { File } from "File";
 import { NhostClient } from "@nhost/nhost-js";
+var FormData = require("form-data");
 require("isomorphic-fetch");
 
 const nhost = new NhostClient({
@@ -71,25 +71,13 @@ export default async (req: Request, res: Response) => {
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
-  // if (attachments) {
-  //   for (let index = 0; index < attachments.length; index++) {
-  //     const attachment = attachments[index] as AttachementType;
-  // const { name, type, content } = attachment;
-  const { name: fileName, type, content } = attachments[0] as AttachementType;
-  const file = new File(content, fileName, { type: type });
-  await nhost.storage.upload(file);
-  // }
-  // }
 
-  // Manage email inline attachments
-  // if (inlines) {
-  //   for (let index = 0; index < inlines.length; index++) {
-  //     const inline = inlines[index] as AttachementType;
-  //     const { name, type, content, cid } = inline;
-  //     const file = new File(content, name, { type: type });
-  //     // await nhost.storage.upload(inline);
-  //   }
-  // }
+  const { name: fileName, type, content } = attachments[0] as AttachementType;
+  const fd = new FormData();
+  fd.append("file", content);
+  await nhost.storage.upload({
+    formData: fd,
+  });
 
   if (response.status === 200) {
     res.status(200).send();
