@@ -47,9 +47,11 @@ function createGqlRequestBody(body): string {
 export default async (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
-  console.log("Res: " + res);
+  console.log("Res: " + JSON.stringify(res));
 
   const response = await fetch(endPointUrl, generateRequest(req));
+
+  console.log("response", JSON.stringify(response));
 
   if (response.status === 200) {
     console.log("---------FIN du SCRIPT-----------");
