@@ -71,7 +71,9 @@ export default async (req: Request, res: Response) => {
   if (attachments[0]) {
     for (let index = 0; index < attachments.length; index++) {
       const attachment = attachments[index] as AttachementType;
-      console.log(attachment);
+      // const file = new File(bits, name)
+      console.log("attachement name", attachment.name);
+      console.log("attachement type", attachment.type);
       // await nhost.storage.upload(attachment);
     }
   }
