@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
+import { File } from "File";
+import { NhostClient } from "@nhost/nhost-js";
 require("isomorphic-fetch");
 
-// const nhost = new NhostClient({
-//   subdomain: "salwxqscgfcsfgnlpaju",
-//   region: "eu-central-1",
-// });
+const nhost = new NhostClient({
+  subdomain: "salwxqscgfcsfgnlpaju",
+  region: "eu-central-1",
+});
 
 type AttachementType = {
   type: string;
@@ -69,14 +71,15 @@ export default async (req: Request, res: Response) => {
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
-  if (attachments) {
-    for (let index = 0; index < attachments.length; index++) {
-      const attachment = attachments[index] as AttachementType;
-      const { name, type, content } = attachment;
-      const file = new File(content, name, { type: type });
-      // await nhost.storage.upload(attachment);
-    }
-  }
+  // if (attachments) {
+  //   for (let index = 0; index < attachments.length; index++) {
+  //     const attachment = attachments[index] as AttachementType;
+  // const { name, type, content } = attachment;
+  const { name: fileName, type, content } = attachments[0] as AttachementType;
+  const file = new File(content, fileName, { type: type });
+  await nhost.storage.upload(file);
+  // }
+  // }
 
   // Manage email inline attachments
   // if (inlines) {
