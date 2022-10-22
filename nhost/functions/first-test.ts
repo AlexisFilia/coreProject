@@ -58,7 +58,7 @@ function createGqlRequestBody(body): string {
   mutation InsertEmail {
     project1 {
       insert_email(objects: {
-          subject: "test"
+          body: "test"
         }) {
         returning {
             id
