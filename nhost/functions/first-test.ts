@@ -60,6 +60,8 @@ export default async (req: Request, res: Response) => {
 
   const response = await fetch(endPointUrl, generateRequest(req));
 
+  console.log(JSON.stringify(response));
+
   if (response.status === 200) {
     res.status(200).send();
   } else {
