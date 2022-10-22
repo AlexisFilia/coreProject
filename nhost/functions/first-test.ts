@@ -3,37 +3,44 @@ require("isomorphic-fetch");
 
 // TODO: (Alexis) Manage attachments
 // TODO: (Alexis) Manage inlines attachments
-// TODO: (Alexis) Use main endpoint
 
-const endPointUrl = "https://mieltemspmtdyniitwlc.nhost.run/v1/graphql";
+const endPointUrl = "https://salwxqscgfcsfgnlpaju.nhost.run/v1/graphql";
+const endPointSecret = "5d11ac1aa30bad1362671f4164aa05ff";
+const regex = /(.*)@dots.cool/i;
+
 function generateRequest(req) {
   return {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
+      "x-hasura-admin-secret": endPointSecret,
     },
     body: createGqlRequestBody(req.body),
   };
 }
 
 function createGqlRequestBody(body): string {
-  const { subject, text, html, from: fromObject, date } = body;
+  const { subject, text, html, from: fromObj, to: toObj, date } = body;
   const fullRequest = JSON.stringify(body);
-  const from = JSON.stringify(fromObject);
+  const from = fromObj.email;
+  const to = toObj.email;
+  const workspace = to.match(regex)[1];
+
   const query = `
   mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
-    insert_email(
-        objects: {
-            subject: $subject,
-            fullRequest: $fullRequest,
-            body: $text,
-            from: $from,
-            date: $date
+    ${workspace} {
+      insert_email(
+          objects: {
+              subject: $subject,
+              fullRequest: $fullRequest,
+              body: $text,
+              from: $from,
+              date: $date
+          }
+      ) {
+        returning {
+            id
         }
-    ) {
-      returning {
-          id
       }
     }
   }`;
