@@ -42,9 +42,21 @@ function createGqlRequestBody(body): string {
   //     }
   //   }
   // }`;
+  // const query = `
+  // mutation InsertEmail {
+  //   ${workspace} {
+  //     insert_email(objects: {
+  //         subject: "test"
+  //       }) {
+  //       returning {
+  //           id
+  //       }
+  //     }
+  //   }
+  // }`;
   const query = `
   mutation InsertEmail {
-    ${workspace} {
+    project1 {
       insert_email(objects: {
           subject: "test"
         }) {
