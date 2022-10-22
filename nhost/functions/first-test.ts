@@ -26,39 +26,15 @@ function createGqlRequestBody(body): string {
   const to = toObj[0].email;
   const workspace = to.match(regex)[1];
 
-  // const query = `
-  // mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
-  //   ${workspace} {
-  //     insert_email(objects: {
-  //         subject: $subject,
-  //         fullRequest: $fullRequest,
-  //         body: $text,
-  //         from: $from,
-  //         date: $date
-  //       }) {
-  //       returning {
-  //           id
-  //       }
-  //     }
-  //   }
-  // }`;
-  // const query = `
-  // mutation InsertEmail {
-  //   ${workspace} {
-  //     insert_email(objects: {
-  //         subject: "test"
-  //       }) {
-  //       returning {
-  //           id
-  //       }
-  //     }
-  //   }
-  // }`;
   const query = `
-  mutation InsertEmail {
-    project1 {
+  mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
+    ${workspace} {
       insert_email(objects: {
-          body: "test"
+          subject: $subject,
+          fullRequest: $fullRequest,
+          body: $text,
+          from: $from,
+          date: $date
         }) {
         returning {
             id
@@ -69,12 +45,8 @@ function createGqlRequestBody(body): string {
 
   return JSON.stringify({
     query,
+    variables: { subject, fullRequest, text, from, date },
   });
-
-  // return JSON.stringify({
-  //   query,
-  //   variables: { subject, fullRequest, text, from, date },
-  // });
 }
 
 export default async (req: Request, res: Response) => {
@@ -82,12 +54,7 @@ export default async (req: Request, res: Response) => {
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
   console.log("Le subject est: " + req.body.subject);
 
-  // console.log("generateRequest", generateRequest(req));
-
   const response = await fetch(endPointUrl, generateRequest(req));
-
-  console.log("response", response);
-  console.log("status", response.status);
 
   if (response.status === 200) {
     res.status(200).send();
