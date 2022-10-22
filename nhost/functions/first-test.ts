@@ -23,7 +23,7 @@ function createGqlRequestBody(body): string {
   const { subject, text, html, from: fromObj, to: toObj, date } = body;
   const fullRequest = JSON.stringify(body);
   const from = fromObj.email;
-  const to = toObj.email;
+  const to = toObj[0].email;
   const workspace = to.match(regex)[1];
 
   const query = `
