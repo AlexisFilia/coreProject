@@ -60,9 +60,7 @@ export default async (req: Request, res: Response) => {
     res.statusMessage = "Succes";
   } else {
     console.log(`There is an issue with the request sent to: ${endPointUrl}`);
-    console.log(response);
     res.statusCode = 500;
     res.statusMessage = JSON.stringify(response);
   }
-  return res;
 };
