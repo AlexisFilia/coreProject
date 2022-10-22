@@ -72,17 +72,21 @@ export default async (req: Request, res: Response) => {
   if (attachments) {
     for (let index = 0; index < attachments.length; index++) {
       const attachment = attachments[index] as AttachementType;
-      // const file = new File(bits, name)
-      console.log("attachement name", attachment.name);
-      console.log("attachement type", attachment.type);
+      const { name, type, content } = attachment;
+      const file = new File(content, name, { type: type });
       // await nhost.storage.upload(attachment);
     }
   }
 
   // Manage email inline attachments
-  if (inlines) {
-    // await nhost.storage.upload({ file });
-  }
+  // if (inlines) {
+  //   for (let index = 0; index < inlines.length; index++) {
+  //     const inline = inlines[index] as AttachementType;
+  //     const { name, type, content, cid } = inline;
+  //     const file = new File(content, name, { type: type });
+  //     // await nhost.storage.upload(inline);
+  //   }
+  // }
 
   if (response.status === 200) {
     res.status(200).send();
