@@ -51,16 +51,12 @@ export default async (req: Request, res: Response) => {
 
     console.log("---------FIN du SCRIPT-----------");
 
-    return {
-      statusCode: 200,
-    };
+    res.statusCode = 200;
+    res.statusMessage = "Succes";
   } catch (e) {
-    const errorMessage = {
-      statusCode: 500,
-      message: "An error in your script",
-      data: e,
-    };
-    console.log(errorMessage);
-    return errorMessage;
+    console.log(e);
+    res.statusCode = 500;
+    res.statusMessage = e;
   }
+  return res;
 };
