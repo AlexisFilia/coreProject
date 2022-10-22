@@ -26,15 +26,27 @@ function createGqlRequestBody(body): string {
   const to = toObj[0].email;
   const workspace = to.match(regex)[1];
 
+  // const query = `
+  // mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
+  //   ${workspace} {
+  //     insert_email(objects: {
+  //         subject: $subject,
+  //         fullRequest: $fullRequest,
+  //         body: $text,
+  //         from: $from,
+  //         date: $date
+  //       }) {
+  //       returning {
+  //           id
+  //       }
+  //     }
+  //   }
+  // }`;
   const query = `
-  mutation InsertEmail($subject: String, $fullRequest: String, $text: String, $from: String, $date: String) {
+  mutation InsertEmail {
     ${workspace} {
       insert_email(objects: {
-          subject: $subject,
-          fullRequest: $fullRequest,
-          body: $text,
-          from: $from,
-          date: $date
+          subject: "test"
         }) {
         returning {
             id
