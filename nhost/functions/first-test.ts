@@ -1,11 +1,23 @@
 import { Request, Response } from "express";
 require("isomorphic-fetch");
 
-// TODO: (Alexis) Use federation to create elements depending on the Alias instead of sending straight the request to the service
 // TODO: (Alexis) Manage attachments
 // TODO: (Alexis) Manage inlines attachments
+// TODO: (Alexis) Use main endpoint
 
-function createGqlRequest(body): string {
+const endPointUrl = "https://mieltemspmtdyniitwlc.nhost.run/v1/graphql";
+function generateRequest(req) {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
+    },
+    body: createGqlRequestBody(req.body),
+  };
+}
+
+function createGqlRequestBody(body): string {
   const { subject, text, html, from: fromObject, date } = body;
   const fullRequest = JSON.stringify(body);
   const from = JSON.stringify(fromObject);
@@ -36,27 +48,18 @@ export default async (req: Request, res: Response) => {
   console.log("J'ai reçu un email from: " + JSON.stringify(req.body.from));
   console.log("Le subject est: " + req.body.subject);
 
-  try {
-    const response = await fetch(
-      "https://mieltemspmtdyniitwlc.nhost.run/v1/graphql",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-hasura-admin-secret": "0af0accb632b22d41834c793f66395bb",
-        },
-        body: createGqlRequest(req.body),
-      }
-    );
+  const response = await fetch(endPointUrl, generateRequest(req));
 
+  if (response.status === 200) {
     console.log("---------FIN du SCRIPT-----------");
 
     res.statusCode = 200;
     res.statusMessage = "Succes";
-  } catch (e) {
-    console.log(e);
+  } else {
+    console.log(`There is an issue with the request sent to: ${endPointUrl}`);
+    console.log(response);
     res.statusCode = 500;
-    res.statusMessage = e;
+    res.statusMessage = JSON.stringify(response);
   }
   return res;
 };
