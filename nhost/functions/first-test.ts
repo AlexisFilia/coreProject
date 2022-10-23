@@ -4,11 +4,6 @@ import FormData from "form-data";
 
 require("isomorphic-fetch");
 
-const nhost = new NhostClient({
-  subdomain: "salwxqscgfcsfgnlpaju",
-  region: "eu-central-1",
-});
-
 type AttachementType = {
   type: string;
   name: string;
@@ -64,7 +59,12 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
-  nhost.auth.signIn({
+  const nhost = new NhostClient({
+    subdomain: "salwxqscgfcsfgnlpaju",
+    region: "eu-central-1",
+  });
+
+  await nhost.auth.signIn({
     email: "alexis@dots.cool",
     password: "aaaaaaaa",
   });
