@@ -86,13 +86,14 @@ export default async (req: Request, res: Response) => {
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
-  const { name: fileName, type, content } = attachments[0] as AttachementType;
+  // const { name: fileName, type, content } = attachments[0] as AttachementType;
   const formdata = new FormData();
   // formdata.append("file", content, fileName);
   formdata.append("file", fs.createReadStream("rib.pdf"));
 
   const resFileUpload = await nhost.storage.upload({
-    name: fileName,
+    name: "test",
+    // name: fileName,
     formData: formdata,
   });
 
