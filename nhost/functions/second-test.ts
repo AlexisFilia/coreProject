@@ -14,7 +14,7 @@ export default async (req: Request, res: Response) => {
   console.log(`Test`);
 
   const fd = new FormData();
-  fd.append("file", fs.createReadStream("logo.png"));
+  fd.append("file", fs.createReadStream("./logo.png"));
 
   const response = await nhost.storage.upload({
     formData: fd,
