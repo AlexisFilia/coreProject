@@ -64,6 +64,11 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
+  nhost.auth.signIn({
+    email: "alexis@dots.cool",
+    password: "aaaaaaaa",
+  });
+
   const { attachments, inlines } = req.body;
   const { name, email } = req.body.from;
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
