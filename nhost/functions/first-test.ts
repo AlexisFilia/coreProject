@@ -80,9 +80,11 @@ export default async (req: Request, res: Response) => {
   const { name: fileName, type, content } = attachments[0] as AttachementType;
   const fd = new FormData();
   fd.append("file", content);
-  await nhost.storage.upload({
+  const resFileUpload = await nhost.storage.upload({
     formData: fd,
   });
+
+  console.log("resFileUpload", resFileUpload);
 
   if (response.status === 200) {
     res.status(200).send();
