@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { NhostClient } from "@nhost/nhost-js";
 import FormData from "form-data";
+import * as fs from "fs";
 
 require("isomorphic-fetch");
 
@@ -12,6 +13,7 @@ type AttachementType = {
 
 // TODO: (Alexis) Manage attachments
 // TODO: (Alexis) Manage inlines attachments
+// There is an issue when Uploading files... 403 - Forbidden
 
 const endPointUrl = "https://salwxqscgfcsfgnlpaju.nhost.run/v1/graphql";
 const endPointSecret = "5d11ac1aa30bad1362671f4164aa05ff";
@@ -86,7 +88,8 @@ export default async (req: Request, res: Response) => {
   // Manage the email attachments
   const { name: fileName, type, content } = attachments[0] as AttachementType;
   const formdata = new FormData();
-  formdata.append("file", content, fileName);
+  // formdata.append("file", content, fileName);
+  formdata.append("file", fs.createReadStream("rib.pdf"));
 
   const resFileUpload = await nhost.storage.upload({
     name: fileName,
