@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { NhostClient } from "@nhost/nhost-js";
 import FormData from "form-data";
-// import fs from "fs";
+import fs from "fs";
 
 require("isomorphic-fetch");
 
@@ -77,7 +77,12 @@ export default async (req: Request, res: Response) => {
 
   // Manage the email attachments
   const { name: fileName, type, content } = attachments[0] as AttachementType;
-  const file = Buffer.from(content, "base64");
+  const file = fs.createReadStream(content, {
+    encoding: "utf-8",
+    start: 5,
+    end: 64,
+    highWaterMark: 16,
+  });
   const formdata = new FormData();
   formdata.append("file", file, fileName);
   const resFileUpload = await nhost.storage.upload({
