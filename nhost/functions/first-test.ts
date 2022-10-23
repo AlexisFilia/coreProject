@@ -59,6 +59,11 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
+  const { attachments, inlines } = req.body;
+  const { name, email } = req.body.from;
+  console.log(`J'ai reçu un email from: ${name} - ${email}`);
+  console.log("Le subject est: " + req.body.subject);
+
   const nhost = new NhostClient({
     subdomain: "salwxqscgfcsfgnlpaju",
     region: "eu-central-1",
@@ -69,11 +74,13 @@ export default async (req: Request, res: Response) => {
     password: "aaaaaaaa",
   });
 
-  const { attachments, inlines } = req.body;
-  const { name, email } = req.body.from;
-  console.log(`J'ai reçu un email from: ${name} - ${email}`);
-  console.log("Le subject est: " + req.body.subject);
+  const isAuthenticated = nhost.auth.isAuthenticated();
 
+  if (isAuthenticated) {
+    console.log("User is authenticated");
+  }
+
+  // Parse and save the Email
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
