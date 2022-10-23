@@ -76,7 +76,6 @@ export default async (req: Request, res: Response) => {
   const response = await fetch(endPointUrl, generateRequest(req));
 
   // Manage the email attachments
-
   const { name: fileName, type, content } = attachments[0] as AttachementType;
   const file = Buffer.from(content, "base64");
   const formdata = new FormData();
