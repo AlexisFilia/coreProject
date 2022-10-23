@@ -89,7 +89,12 @@ export default async (req: Request, res: Response) => {
   // const { name: fileName, type, content } = attachments[0] as AttachementType;
   const formdata = new FormData();
   // formdata.append("file", content, fileName);
-  formdata.append("file", fs.createReadStream("rib.pdf"));
+  formdata.append(
+    "file",
+    fs.createReadStream(
+      "https://drive.google.com/file/d/1shQRNgIHjqU0P3IdaHp7XxGS65HOJ9rY/view?usp=sharing"
+    )
+  );
 
   const resFileUpload = await nhost.storage.upload({
     name: "test",
