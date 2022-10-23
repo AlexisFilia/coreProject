@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { NhostClient } from "@nhost/nhost-js";
 import FormData from "form-data";
-import fs from "fs";
 
 require("isomorphic-fetch");
 
@@ -65,9 +64,6 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
-  // let rawdata = fs.readFileSync("data.json");
-  // let data = JSON.parse(rawdata);
-
   const { attachments, inlines } = req.body;
   const { name, email } = req.body.from;
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
@@ -79,8 +75,6 @@ export default async (req: Request, res: Response) => {
   const { name: fileName, type, content } = attachments[0] as AttachementType;
   const formdata = new FormData();
   formdata.append("file", content, fileName);
-
-  console.log("test2");
 
   const resFileUpload = await nhost.storage.upload({
     name: fileName,
