@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { NhostClient } from "@nhost/nhost-js";
-var FormData = require("form-data");
+import FormData from "form-data";
+// import fs from "fs";
+
 require("isomorphic-fetch");
 
 const nhost = new NhostClient({
@@ -63,6 +65,9 @@ function createGqlRequestBody(body): string {
 }
 
 export default async (req: Request, res: Response) => {
+  // let rawdata = fs.readFileSync("data.json");
+  // let data = JSON.parse(rawdata);
+
   const { attachments, inlines } = req.body;
   const { name, email } = req.body.from;
   console.log(`J'ai reçu un email from: ${name} - ${email}`);
