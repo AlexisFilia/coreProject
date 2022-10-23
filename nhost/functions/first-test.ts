@@ -78,10 +78,12 @@ export default async (req: Request, res: Response) => {
   // Manage the email attachments
 
   const { name: fileName, type, content } = attachments[0] as AttachementType;
-  const fd = new FormData();
-  fd.append("file", content);
+  const file = Buffer.from(content, "base64");
+  const formdata = new FormData();
+  formdata.append("file", file, fileName);
   const resFileUpload = await nhost.storage.upload({
-    formData: fd,
+    name: fileName,
+    formData: formdata,
   });
 
   console.log("resFileUpload", resFileUpload);
