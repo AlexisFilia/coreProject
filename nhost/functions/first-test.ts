@@ -77,14 +77,11 @@ export default async (req: Request, res: Response) => {
 
   // Manage the email attachments
   const { name: fileName, type, content } = attachments[0] as AttachementType;
-  const file = fs.createReadStream(fileName, {
-    encoding: "utf-8",
-    start: 5,
-    end: 64,
-    highWaterMark: 16,
-  });
   const formdata = new FormData();
-  formdata.append("file", file, fileName);
+  formdata.append("file", content, fileName);
+
+  console.log("test2");
+
   const resFileUpload = await nhost.storage.upload({
     name: fileName,
     formData: formdata,
