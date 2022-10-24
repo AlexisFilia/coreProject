@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { NhostClient } from "@nhost/nhost-js";
+import slugify from "slugify";
 import FormData from "form-data";
 
 require("isomorphic-fetch");
@@ -72,13 +73,25 @@ export default async (req: Request, res: Response) => {
   // Parse and save the Email
   const response = await fetch(endPointUrl, generateRequest(req));
 
+  await nhost.auth.signIn({
+    email: "alexis@dots.cool",
+    password: "aaaaaaaa",
+  });
+
+  const isAuthenticated = nhost.auth.isAuthenticated();
+
+  if (isAuthenticated) {
+    console.log("User is authenticated");
+  }
+
   // Manage the email attachments
   const { name: fileName, type, content } = attachments[0] as AttachementType;
+  const slug = slugify(fileName);
   const formdata = new FormData();
-  formdata.append("file", content, fileName);
+  formdata.append("file", content, slug);
 
   const resFileUpload = await nhost.storage.upload({
-    name: fileName,
+    name: slug,
     formData: formdata,
   });
 
