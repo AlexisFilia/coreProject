@@ -11,7 +11,6 @@ type AttachementType = {
   content: any;
 };
 
-// TODO: (Alexis) Manage attachments
 // TODO: (Alexis) Manage inlines attachments
 
 const endPointUrl = "https://salwxqscgfcsfgnlpaju.nhost.run/v1/graphql";
@@ -73,31 +72,28 @@ export default async (req: Request, res: Response) => {
   // Parse and save the Email
   const response = await fetch(endPointUrl, generateRequest(req));
 
-  await nhost.auth.signIn({
-    email: "alexis@dots.cool",
-    password: "aaaaaaaa",
-  });
+  // Manage the email attachments
+  const uploadResponses = [] as number[];
 
-  const isAuthenticated = nhost.auth.isAuthenticated();
+  for (let index = 0; index < attachments.length; index++) {
+    const attachment = attachments[index];
+    const { name: fileName, type, content } = attachments as AttachementType;
+    const slug = slugify(fileName);
+    const formdata = new FormData();
 
-  if (isAuthenticated) {
-    console.log("User is authenticated");
+    formdata.append("file", content, slug);
+
+    const uploadResponse = await nhost.storage.upload({
+      name: slug,
+      formData: formdata,
+    });
+
+    if (uploadResponse.error) {
+      uploadResponses.push(1);
+    }
   }
 
-  // Manage the email attachments
-  const { name: fileName, type, content } = attachments[0] as AttachementType;
-  const slug = slugify(fileName);
-  const formdata = new FormData();
-  formdata.append("file", content, slug);
-
-  const resFileUpload = await nhost.storage.upload({
-    name: slug,
-    formData: formdata,
-  });
-
-  console.log("resFileUpload", resFileUpload);
-
-  if (response.status === 200) {
+  if (response.status === 200 && uploadResponses.length === 0) {
     res.status(200).send();
   } else {
     console.log(`There is an issue with the request sent to: ${endPointUrl}`);
