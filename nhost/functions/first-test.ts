@@ -89,6 +89,7 @@ export default async (req: Request, res: Response) => {
     });
 
     if (uploadResponse.error) {
+      console.log(uploadResponse.error);
       uploadResponses.push(1);
     }
   }
