@@ -77,8 +77,8 @@ export default async (req: Request, res: Response) => {
 
   for (let index = 0; index < attachments.length; index++) {
     const attachment = attachments[index];
-    const { name: fileName, type, content } = attachments as AttachementType;
-    const slug = slugify(fileName);
+    const { name: fileName, type, content } = attachment as AttachementType;
+    const slug = slugify(fileName) || `unknown.${type}`;
     const formdata = new FormData();
 
     formdata.append("file", content, slug);
